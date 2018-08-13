@@ -1,0 +1,66 @@
+Make(delphi)
+ver(4.04 build 184)
+Add(MainForm,2953706,259,189)
+{
+ Width=308
+ Height=480
+ link(onCreate,4147610:doNavigate,[(306,209)(306,195)])
+}
+Add(WebBrowser,4147610,322,189)
+{
+ Width=292
+ Height=442
+ Align=5
+ URL="https://oauth.vk.com/authorize?client_id=3635428&scope=offline,messages&redirect_uri=https://oauth.vk.com/blank.html&display=mobile&v=5.5&response_type=token"
+ link(onNavigate,15579327:doCompare,[])
+}
+Add(StrMask,15579327,378,189)
+{
+ Mask="https://oauth.vk.com/blank.html*"
+ link(onTrue,4675284:doSearch,[(418,202)(418,195)])
+}
+Add(BlockFind,4675284,427,189)
+{
+ IncludeBlock=1
+ StartBlock="https://oauth.vk.com/blank.html#access_token="
+ EndBlock="&"
+ link(onSearch,10270287:doValue,[])
+}
+Add(GlobalVar,10270287,476,189)
+{
+ Name="Токен"
+ link(onValue,8251976:doStrCat,[])
+}
+Add(GVarContainer,8279000,749,161)
+{
+ Section="app"
+ FilleName="settings.ini"
+ VarList=#15:Url для запроса|
+}
+Add(StrCat,8251976,546,189)
+{
+ Str1="https://api.vk.com/method/execute.checkMessage?access_token="
+ link(onStrCat,5110945:doValue,[])
+ link(Str2,13671761:Var,[])
+}
+Add(GlobalVar,13671761,553,161)
+{
+ Name="Токен"
+}
+Add(GlobalVar,5110945,595,189)
+{
+ Name="Url для запроса"
+ link(onValue,4886239:doEvent1,[])
+}
+Add(Hub,4886239,707,189)
+{
+ OutCount=3
+ link(onEvent1,8279000:doSave,[(737,195)(737,174)])
+ link(onEvent2,15182244:doExec,[(738,202)(738,216)])
+ link(onEvent3,2953706:doClose,[(733,209)(733,267)(251,267)(251,216)])
+}
+Add(WinExec,15182244,749,210)
+{
+ FileName="vknotifer.exe"
+ Point(onConsoleResult)
+}
